@@ -1,6 +1,6 @@
 # Stream your 3D printer camera
 
-Here's the most plug-n-play way I can think of to:
+This script is the most plug-n-play way I can think of to:
 
 1. Stream video from the camera pointed at your 3D printer
 2. Send a snapshot to **Prusa Connect** if motion is detected
@@ -89,17 +89,15 @@ restarted, then run:
 
 `systemctl enable --user stream-3dprinter-camera.service`
 
-# Frequently asked questions
+# Global variables in [stream_3dprinter_camera.py](stream_3dprinter_camera.py)
 
-## What do the global variables in [stream_3dprinter_camera.py](stream_3dprinter_camera.py) do?
-
-### PORT
+## PORT
 
 The port that you'll have to use when viewing the stream.
 
 Default: `8000`
 
-### RESOLUTION
+## RESOLUTION
 
 The resolution of the video/image. Using smaller resolutions seemed to crop out some of
 the field of view of the camera, so take that into account if reducing this
@@ -107,13 +105,13 @@ value.
 
 Default: `1920 x 1080`
 
-### ROTATION
+## ROTATION
 
 The number of degrees to rotate. Only 0 and 180 degrees are accepted.
 
 Default: `180`
 
-### BUFFER
+## BUFFER
 
 The buffer count. A higher buffer count can mean that the camera will run more
 smoothly and drop fewer frames, though the downside is that at higher
@@ -121,13 +119,13 @@ resolutions, there may not be enough memory available.
 
 Default: `8`
 
-### FPS
+## FPS
 
 The number of frames per second to run the video at.
 
 Default: `30`
 
-### MOTION_THRESHOLD
+## MOTION_THRESHOLD
 
 The threshold above which it is determined that a motion event has occurred.
 Pixel differences between the current and previous frame are measured in order
@@ -135,21 +133,21 @@ to compare against the threshold.
 
 Default: `12`
 
-### WAIT_AFTER_MOTION
+## WAIT_AFTER_MOTION
 
 Number of seconds to wait after a snapshot is saved and sent to **Prusa
 Connect**.
 
 Default: `30`
 
-### WAIT_AFTER_N_LOOPS
+## WAIT_AFTER_N_LOOPS
 
 Number of seconds to wait after some number of loops, defined by
 **MOTION_N_LOOPS**, has occurred.
 
 Default: `5`
 
-### MOTION_N_LOOPS
+## MOTION_N_LOOPS
 
 Number of loops to try and capture motion. Detecting motion is expensive so
 only compare for this many number of loops and then wait for a bit so that
@@ -158,7 +156,7 @@ detect motion.
 
 Default: `15`
 
-### SNAPSHOT_DIR
+## SNAPSHOT_DIR
 
 The directory where motion detection snapshots are saved.  Snapshots will be saved
 with the following format:
@@ -170,20 +168,20 @@ which the snapshot was taken in the format **YYYY-MM-DD_hhmmss**
 
 Default: `/tmp`
 
-### PRINTER_SNAPSHOT_URL
+## PRINTER_SNAPSHOT_URL
 
 The URL at which **Prusa Connect** expect snapshots to be sent to.
 
 Default: `https://webcam.connect.prusa3d.com/c/snapshot`
 
-### PRINTER_TOKEN
+## PRINTER_TOKEN
 
 The token of the 3D printer generated in **Prusa Connect**.  This should only
 be hardcoded in the script if your copy **WILL NOT** be public.  If it will be
 public, then you should save the token to a file and let the _.py_ script read
 the file.
 
-### PRINTER_TOKEN_PATH
+## PRINTER_TOKEN_PATH
 
 The path to the file that has the 3D printer token.  This is used so that the
 printer token is not hardcoded in the event that your copy of the _.py_ script
