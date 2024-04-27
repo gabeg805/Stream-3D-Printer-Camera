@@ -190,3 +190,10 @@ used.
 
 Default: `~/.api/prusa/token`
 
+## PRINTER_CAMERA_FINGERPRINT
+
+The camera fingerprint for the printer. This is just a random string I
+generated.
+
+Default: `d730a87e9ba94ff3b7960d89698eaeed`
+

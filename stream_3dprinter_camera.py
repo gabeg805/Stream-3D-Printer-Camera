@@ -16,7 +16,7 @@
 #     
 #     Motion detection snapshots are saved with the following format:
 #     
-#         /<SNAPSHOT_DIR>/motion_<TIMESTAMP>.jpg
+#         <SNAPSHOT_DIR>/motion_<TIMESTAMP>.jpg
 #     
 # PREREQUISITES
 #     Install the following packages:
@@ -236,7 +236,7 @@ def detect_motion(picam2):
 				timestamp = now.strftime("%Y-%m-%d_%H%M%S")
 
 				# Take a picture of the motion
-				filepath = f"/{SNAPSHOT_DIR}/motion_{timestamp}.jpg"
+				filepath = f"{SNAPSHOT_DIR}/motion_{timestamp}.jpg"
 				request = picam2.capture_request()
 				#print(f"Motion detected : {mse} | File : {filepath}")
 
