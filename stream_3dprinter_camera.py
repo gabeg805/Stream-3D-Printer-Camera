@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 # 
 # NAME
-#     camera_stream.py
+#     stream_3dprinter_camera.py
 # 
 # SYNOPSIS
-#     python3 camera_stream.py
+#     python3 stream_3dprinter_camera.py
 # 
 # DESCRIPTION
 #     Stream video from the camera and if motion is detected, send a snapshot

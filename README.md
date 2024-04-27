@@ -7,26 +7,6 @@ to **Prusa Connect**.
 All this code I got from examples online, which are linked in the python file
 if you want to reference anything I used.
 
-## Where can I watch the video stream?
-
-The video stream can be watched at the following URL:
-
-```http://IP_ADDRESS:PORT```
-
-Where `IP_ADDRESS` is the IP address of your Raspberry Pi and `PORT` is the
-port you want to use.
-
-`PORT` is defined in the python file. By default `PORT=8000`.
-
-## Where do motion detection snapshots get saved?
-
-Motion detection snapshots are saved with the following format:
-
-```/tmp/motion_TIMESTAMP.jpg```
-
-Where `TIMESTAMP` is the date and time at which the snapshot was taken in the
-format **YYYY-MM-DD_hhmmss**.
-
 # Don't Panic
 
 You don't need to have some arcane knowledge of setting up servers and opening
@@ -70,4 +50,45 @@ Instead, do the following in place of step 5:
 2. Paste the **Token** in this file.
 
 The script will read the **Token** from this file.
+
+## Usage
+
+Test the python script to make sure you don't need to install anything extra
+and it works the way you expect:
+
+`python3 stream_3dprinter_camera.py`
+
+If it works, then copy the _.service_ file into:
+
+`~/..config/systemd/user/`
+
+Start the service file:
+
+`systemctl start --user stream-3dprinter-camera.service`
+
+To have the camera stream even if the Raspberry Pi is restarted, then run:
+
+`systemctl enable --user stream-3dprinter-camera.service`
+
+## Frequently asked questions
+
+### Where can I watch the video stream?
+
+The video stream can be watched at the following URL:
+
+```http://IP_ADDRESS:PORT```
+
+Where `IP_ADDRESS` is the IP address of your Raspberry Pi and `PORT` is the
+port you want to use.
+
+`PORT` is defined in the python file. By default `PORT=8000`.
+
+### Where do motion detection snapshots get saved?
+
+Motion detection snapshots are saved with the following format:
+
+```/tmp/motion_TIMESTAMP.jpg```
+
+Where `TIMESTAMP` is the date and time at which the snapshot was taken in the
+format **YYYY-MM-DD_hhmmss**.
 
