@@ -282,21 +282,30 @@ def start_stream(picam2):
 		picam2.stop_recording()
 	return
 
-# Initialize the camera
+# Setup how snapshots will be saved
 output = StreamingOutput()
-transform = Transform(hflip=1, vflip=1) if ROTATION == 180 else None
+
+# Setup transform to rotate the video/image of the camera
+transform = Transform(hflip=1, vflip=1) if ROTATION == 180 else Transform()
+
+# Initialize the camera
 picam2 = Picamera2()
+
+# Configure the camera
 config = picam2.create_video_configuration( \
 	buffer_count=BUFFER,
-	main={"size": RESOLUTION})
-print(config)
+	main={"size": RESOLUTION},
+	transform=transform)
 
-# Start the camera
 picam2.configure(config)
+
+# Set auto focus and frame rate of the camera
 picam2.set_controls({ \
 	"AfMode": controls.AfModeEnum.Continuous,
 	"AfSpeed": controls.AfSpeedEnum.Normal,
 	"FrameRate": FPS})
+
+# Start the camera
 picam2.start_recording(JpegEncoder(), FileOutput(output))
 
 # Create thread to detect motion
