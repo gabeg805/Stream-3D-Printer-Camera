@@ -1,8 +1,9 @@
 # Stream your 3D printer camera
 
-Here's the most straightforward way I can think of to stream video from the
-camera pointed at your 3D printer and, if motion is detected, send a snapshot
-to **Prusa Connect**.
+Here's the most plug-n-play way I can think of to:
+
+1. Stream video from the camera pointed at your 3D printer
+2. Send a snapshot to **Prusa Connect** if motion is detected
 
 A lot of this code I got from examples online, which are linked in 
 [stream_3dprinter_camera.py](stream_3dprinter_camera.py) if you want to
@@ -96,7 +97,7 @@ restarted, then run:
 
 The port that you'll have to use when viewing the stream.
 
-Default: `8000`.
+Default: `8000`
 
 #### RESOLUTION
 
@@ -104,13 +105,13 @@ The resolution of the video/image. Using smaller resolutions seemed to crop out 
 the field of view of the camera, so take that into account if reducing this
 value.
 
-Default: `1920 x 1080`.
+Default: `1920 x 1080`
 
 #### ROTATION
 
 The number of degrees to rotate. Only 0 and 180 degrees are accepted.
 
-Default: `180`.
+Default: `180`
 
 #### BUFFER
 
@@ -118,13 +119,13 @@ The buffer count. A higher buffer count can mean that the camera will run more
 smoothly and drop fewer frames, though the downside is that at higher
 resolutions, there may not be enough memory available.
 
-Default: `8`.
+Default: `8`
 
 #### FPS
 
 The number of frames per second to run the video at.
 
-Default: `30`.
+Default: `30`
 
 #### MOTION_THRESHOLD
 
@@ -132,14 +133,14 @@ The threshold above which it is determined that a motion event has occurred.
 Pixel differences between the current and previous frame are measured in order
 to compare against the threshold.
 
-Default: `12`.
+Default: `12`
 
 #### WAIT_AFTER_MOTION
 
 Number of seconds to wait after a snapshot is saved and sent to **Prusa
 Connect**.
 
-Default: `30`.
+Default: `30`
 
 #### WAIT_AFTER_N_LOOPS
 
@@ -155,7 +156,7 @@ only compare for this many number of loops and then wait for a bit so that
 the Raspberry Pi does not have to do as much work as constantly trying to
 detect motion.
 
-Default: `15`.
+Default: `15`
 
 #### PRINTER_SNAPSHOT_URL
 
@@ -177,7 +178,7 @@ printer token is not hardcoded in the event that your copy of the _.py_ script
 is public.  If your copy is private, then this variable does not need to be
 used.
 
-Default: `~/.api/prusa/token`.
+Default: `~/.api/prusa/token`
 
 ### Where do motion detection snapshots get saved?
 
