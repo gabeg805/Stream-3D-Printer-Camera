@@ -18,9 +18,9 @@ change one variable in a python file.
 
 # Prerequisites
 
-## Install
+## Install any missing packages
 
-You'll have to install the following package:
+Install the following package for the **Picamera2**:
 
 ```sudo apt install python3-picamera2```
 
@@ -38,8 +38,6 @@ README.
 
 ## Setup camera in Prusa Connect
 
-You'll have to setup a camera in **Prusa Connect** before you can use the code.
-
 1. Open **Prusa Connect**.
 2. Go to the **Camera** tab.
 3. Click on **Add new other camera**.
@@ -47,8 +45,9 @@ You'll have to setup a camera in **Prusa Connect** before you can use the code.
 5. In [stream_3dprinter_camera.py](stream_3dprinter_camera.py), look for the
    `PRINTER_TOKEN` variable and paste in the **Token** from step 4 there.
 
-If you're saving your copy of this repo online, then **DO NOT** do step 5.
-Instead, do the following in place of step 5:
+**Important:** If your copy of
+[stream_3dprinter_camera.py](stream_3dprinter_camera.py) will be public, then
+**DO NOT** do step 5.  Instead, do the following in place of step 5:
 
 1. Create the file: `~/.api/prusa/token`
 2. Paste the **Token** in this file. The script will read the **Token** from
@@ -58,13 +57,10 @@ Instead, do the following in place of step 5:
 
 ## Start the stream
 
-To start the stream, run
-
 `python3 stream_3dprinter_camera.py`
 
-This is a great way to test
-[stream_3dprinter_camera.py](stream_3dprinter_camera.py) to make sure you don't
-need to install anything extra and it works the way you expect.
+This is a great way to test the _.py_ file to make sure you don't need to
+install anything extra and it works the way you expect.
 
 ## View the stream
 
@@ -73,7 +69,7 @@ The video stream can be watched at the following URL:
 ```http://IP_ADDRESS:PORT```
 
 Where `IP_ADDRESS` is the IP address of your Raspberry Pi and `PORT` is the
-port you want to use.
+port you want to use.  By default, `PORT = 8000`
 
 The URL will be something like `http://192.168.0.123:8000`
 
@@ -87,11 +83,16 @@ Start the _.service_ file:
 
 `systemctl start --user stream-3dprinter-camera.service`
 
-To have the camera stream even if the Raspberry Pi is restarted, then run:
+To automatically start the _.service_ file even if the Raspberry Pi is
+restarted, then run:
 
 `systemctl enable --user stream-3dprinter-camera.service`
 
 ## Frequently asked questions
+
+### What variables in [stream_3dprinter_camera.py](stream_3dprinter_camera.py) should I change?
+
+Hello this is a test.
 
 ### Where do motion detection snapshots get saved?
 
