@@ -20,11 +20,11 @@ change one variable in a python file.
 
 ## Install any missing packages
 
-Install the following package for the **Picamera2**:
+Install the following package so that your **Picamera2** works:
 
 ```sudo apt install python3-picamera2```
 
-As well as the following with **pip3**:
+As well as the following so that the code works:
 
 ```pip3 install numpy```
 
@@ -64,14 +64,14 @@ install anything extra and it works the way you expect.
 
 ## View the stream
 
-The video stream can be watched at the following URL:
+The video stream can be viewed at the following URL:
 
 ```http://IP_ADDRESS:PORT```
 
 Where `IP_ADDRESS` is the IP address of your Raspberry Pi and `PORT` is the
 port you want to use.  By default, `PORT = 8000`
 
-The URL will be something like `http://192.168.0.123:8000`
+Your URL will be something like `http://192.168.0.123:8000`
 
 ## Start the stream via systemd
 
@@ -90,9 +90,23 @@ restarted, then run:
 
 ## Frequently asked questions
 
-### What variables in [stream_3dprinter_camera.py](stream_3dprinter_camera.py) should I change?
+### What do the global variables in [stream_3dprinter_camera.py](stream_3dprinter_camera.py) do?
 
-Hello this is a test.
+#### PORT
+
+This is the port that you'll have to use when viewing the stream at:
+
+```http://IP_ADDRESS:PORT```
+
+By default, this is `8000`.
+
+#### RESOLUTION
+
+Video/image resolution. Using smaller resolutions seemed to crop out some of
+the field of view of the camera, so take that into account if reducing this
+value
+
+By default, this is `1920 x 1080`.
 
 ### Where do motion detection snapshots get saved?
 
