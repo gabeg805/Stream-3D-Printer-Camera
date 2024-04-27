@@ -110,16 +110,20 @@ MOTION_N_LOOPS = 15
 # Printer snapshot URL
 PRINTER_SNAPSHOT_URL = "https://webcam.connect.prusa3d.com/c/snapshot"
 
-# Path to the printer token. This is just used to read the token, but if you
-# want to hardcode it below, that works too
-PRINTER_TOKEN_PATH = os.path.join(os.environ["HOME"], ".api", "prusa", "token")
-
 # Printer token. This is generated in Prusa Connect and I just saved the string
 # to a file so that it was not hardcoded in this script
 PRINTER_TOKEN = ""
 
-with open(PRINTER_TOKEN_PATH, "r") as handle:
-	PRINTER_TOKEN = handle.readline().strip()
+# Path to the printer token. This is just used to read the token, but if you
+# want to hardcode it below, that works too
+PRINTER_TOKEN_PATH = os.path.join(os.environ["HOME"], ".api", "prusa", "token")
+
+# Check if the path to the printer token exists
+if os.path.isfile(PRINTER_TOKEN_PATH):
+
+	# Read the token from the file
+	with open(PRINTER_TOKEN_PATH, "r") as handle:
+		PRINTER_TOKEN = handle.readline().strip()
 
 # Camera fingerprint for the printer. This is just a random string I generated
 PRINTER_CAMERA_FINGERPRINT = "d730a87e9ba94ff3b7960d89698eaeed"
