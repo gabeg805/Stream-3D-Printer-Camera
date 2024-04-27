@@ -91,6 +91,9 @@ PORT = 8000
 # value
 RESOLUTION = (1920, 1080)
 
+# Number of degrees to rotate. Only 0 and 180 degrees are accepted
+ROTATION = 180
+
 # Buffer count. A higher buffer count can mean that the camera will run more
 # smoothly and drop fewer frames, though the downside is that at higher
 # resolutions, there may not be enough memory available
@@ -204,7 +207,7 @@ def detect_motion(picam2):
 	if not PRINTER_TOKEN:
 
 		# Do not attempt to detect motion if there is no token
-		logging.error("Unable to detect motion because the PRINTER_TOKEN is not set.")
+		print("ERROR: Unable to detect motion because the PRINTER_TOKEN is not set.")
 		return
 
 	# Wait to detect motion
@@ -220,6 +223,7 @@ def detect_motion(picam2):
 			# Measure pixels differences between current and
 			# previous frame
 			mse = numpy.square(numpy.subtract(cur, prev)).mean()
+			#print(f"Testing motion threshold : {mse}")
 
 			# Check if enough differences were measured to indicate a motion event
 			if mse > MOTION_THRESHOLD:
@@ -280,11 +284,12 @@ def start_stream(picam2):
 
 # Initialize the camera
 output = StreamingOutput()
+transform = Transform(hflip=1, vflip=1) if ROTATION == 180 else None
 picam2 = Picamera2()
 config = picam2.create_video_configuration( \
 	buffer_count=BUFFER,
-	main={"size": RESOLUTION},
-	transform=Transform(hflip=1, vflip=1))
+	main={"size": RESOLUTION})
+print(config)
 
 # Start the camera
 picam2.configure(config)

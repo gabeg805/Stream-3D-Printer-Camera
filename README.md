@@ -4,8 +4,8 @@ Here's the most straightforward way I can think of to stream video from the
 camera pointed at your 3D printer and, if motion is detected, send a snapshot
 to **Prusa Connect**.
 
-A lot of this code I got from examples online, which are linked in the
-[stream_3dprinter_camera.py](stream_3dprinter_camera.py) file if you want to
+A lot of this code I got from examples online, which are linked in 
+[stream_3dprinter_camera.py](stream_3dprinter_camera.py) if you want to
 reference anything I used.
 
 # Don't Panic
@@ -41,29 +41,29 @@ You'll have to setup a camera in **Prusa Connect** before you can use the code.
 2. Go to the **Camera** tab.
 3. Click on **Add new other camera**.
 4. Copy the **Token**.
-5. In the python file, look for the **PRINTER_TOKEN** variable and paste in the
-   **Token** from step 4 there.
+5. In [stream_3dprinter_camera.py](stream_3dprinter_camera.py), look for the
+   `PRINTER_TOKEN` variable and paste in the **Token** from step 4 there.
 
 If you're saving your copy of this repo online, then **DO NOT** do step 5.
 Instead, do the following in place of step 5:
 
 1. Create the file: `~/.api/prusa/token`
-2. Paste the **Token** in this file.
-
-The script will read the **Token** from this file.
+2. Paste the **Token** in this file. The script will read the **Token** from
+   this file.
 
 ## Usage
 
-Test the python script to make sure you don't need to install anything extra
-and it works the way you expect:
+Test [stream_3dprinter_camera.py](stream_3dprinter_camera.py) to make sure you
+don't need to install anything extra and it works the way you expect:
 
 `python3 stream_3dprinter_camera.py`
 
-If it works, then copy the _.service_ file into:
+If it works, then copy
+[stream-3dprinter-camera.service](stream-3dprinter-camera.service) into:
 
 `~/.config/systemd/user/`
 
-Start the service file:
+Start the _.service_ file:
 
 `systemctl start --user stream-3dprinter-camera.service`
 
