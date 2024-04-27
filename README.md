@@ -4,23 +4,28 @@ Here's the most straightforward way I can think of to stream video from the
 camera pointed at your 3D printer and, if motion is detected, send a snapshot
 to **Prusa Connect**.
 
+All this code I got from examples online, which are linked in the python file
+if you want to reference anything I used.
+
+## Where can I watch the video stream?
+
 The video stream can be watched at the following URL:
 
 ```http://IP_ADDRESS:PORT```
 
 Where `IP_ADDRESS` is the IP address of your Raspberry Pi and `PORT` is the
-port you want to use.  `PORT` is defined in the python file and defaults to
-8000.
+port you want to use.
+
+`PORT` is defined in the python file. By default `PORT=8000`.
+
+## Where do motion detection snapshots get saved?
 
 Motion detection snapshots are saved with the following format:
 
 ```/tmp/motion_TIMESTAMP.jpg```
 
 Where `TIMESTAMP` is the date and time at which the snapshot was taken in the
-format %Y-%m-%d_%H%M%S.
-
-All this code I got from examples online, which are linked in the python file
-if you want to reference anything I used.
+format **YYYY-MM-DD_hhmmss**.
 
 # Don't Panic
 
@@ -64,6 +69,5 @@ Instead, do the following in place of step 5:
 1. Create the file: `~/.api/prusa/token`
 2. Paste the **Token** in this file.
 
-The script will read **Token** the **PRINTER_TOKEN_PATH** file and populate
-**PRINTER_TOKEN** with it.
+The script will read the **Token** from this file.
 
