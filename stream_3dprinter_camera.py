@@ -16,7 +16,7 @@
 #     
 #     Motion detection snapshots are saved with the following format:
 #     
-#         /tmp/motion_<TIMESTAMP>.jpg
+#         /<SNAPSHOT_DIR>/motion_<TIMESTAMP>.jpg
 #     
 # PREREQUISITES
 #     Install the following packages:
@@ -120,6 +120,9 @@ WAIT_AFTER_N_LOOPS = 5
 # the Raspberry Pi does not have to do as much work as constantly trying to
 # detect motion.
 MOTION_N_LOOPS = 15
+
+# Directory where motion detection snapshots are saved
+SNAPSHOT_DIR = "/tmp"
 
 # Printer snapshot URL
 PRINTER_SNAPSHOT_URL = "https://webcam.connect.prusa3d.com/c/snapshot"
@@ -233,7 +236,7 @@ def detect_motion(picam2):
 				timestamp = now.strftime("%Y-%m-%d_%H%M%S")
 
 				# Take a picture of the motion
-				filepath = f"/tmp/motion_{timestamp}.jpg"
+				filepath = f"/{SNAPSHOT_DIR}/motion_{timestamp}.jpg"
 				request = picam2.capture_request()
 				#print(f"Motion detected : {mse} | File : {filepath}")
 

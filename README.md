@@ -48,10 +48,10 @@ README.
 
 **Important:** If your copy of
 [stream_3dprinter_camera.py](stream_3dprinter_camera.py) will be public, then
-**DO NOT** do step 5.  Instead, do the following in place of step 5:
+**DO NOT** do step 5.  Do the following instead:
 
-1. Create the file: `~/.api/prusa/token`
-2. Paste the **Token** in this file. The script will read the **Token** from
+6. Create the file: `~/.api/prusa/token`
+7. Paste the **Token** in this file. The script will read the **Token** from
    this file.
 
 # Usage
@@ -157,6 +157,18 @@ the Raspberry Pi does not have to do as much work as constantly trying to
 detect motion.
 
 Default: `15`
+
+#### SNAPSHOT_DIR
+
+The directory where motion detection snapshots are saved.  Snapshots will be saved
+with the following format:
+
+```SNAPSHOT_DIR/motion_TIMESTAMP.jpg```
+
+Where `SNAPSHOT_DIR` is explained above and `TIMESTAMP` is the date and time at
+which the snapshot was taken in the format **YYYY-MM-DD_hhmmss**
+
+Default: `/tmp`
 
 #### PRINTER_SNAPSHOT_URL
 
