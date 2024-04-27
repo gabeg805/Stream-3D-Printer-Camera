@@ -94,19 +94,90 @@ restarted, then run:
 
 #### PORT
 
-This is the port that you'll have to use when viewing the stream at:
+The port that you'll have to use when viewing the stream.
 
-```http://IP_ADDRESS:PORT```
-
-By default, this is `8000`.
+Default: `8000`.
 
 #### RESOLUTION
 
-Video/image resolution. Using smaller resolutions seemed to crop out some of
+The resolution of the video/image. Using smaller resolutions seemed to crop out some of
 the field of view of the camera, so take that into account if reducing this
-value
+value.
 
-By default, this is `1920 x 1080`.
+Default: `1920 x 1080`.
+
+#### ROTATION
+
+The number of degrees to rotate. Only 0 and 180 degrees are accepted.
+
+Default: `180`.
+
+#### BUFFER
+
+The buffer count. A higher buffer count can mean that the camera will run more
+smoothly and drop fewer frames, though the downside is that at higher
+resolutions, there may not be enough memory available.
+
+Default: `8`.
+
+#### FPS
+
+The number of frames per second to run the video at.
+
+Default: `30`.
+
+#### MOTION_THRESHOLD
+
+The threshold above which it is determined that a motion event has occurred.
+Pixel differences between the current and previous frame are measured in order
+to compare against the threshold.
+
+Default: `12`.
+
+#### WAIT_AFTER_MOTION
+
+Number of seconds to wait after a snapshot is saved and sent to **Prusa
+Connect**.
+
+Default: `30`.
+
+#### WAIT_AFTER_N_LOOPS
+
+Number of seconds to wait after some number of loops, defined by
+**MOTION_N_LOOPS**, has occurred.
+
+Default: `5`
+
+#### MOTION_N_LOOPS
+
+Number of loops to try and capture motion. Detecting motion is expensive so
+only compare for this many number of loops and then wait for a bit so that
+the Raspberry Pi does not have to do as much work as constantly trying to
+detect motion.
+
+Default: `15`.
+
+#### PRINTER_SNAPSHOT_URL
+
+The URL at which **Prusa Connect** expect snapshots to be sent to.
+
+Default: `https://webcam.connect.prusa3d.com/c/snapshot`
+
+#### PRINTER_TOKEN
+
+The token of the 3D printer generated in **Prusa Connect**.  This should only
+be hardcoded in the script if your copy **WILL NOT** be public.  If it will be
+public, then you should save the token to a file and let the _.py_ script read
+the file.
+
+#### PRINTER_TOKEN_PATH
+
+The path to the file that has the 3D printer token.  This is used so that the
+printer token is not hardcoded in the event that your copy of the _.py_ script
+is public.  If your copy is private, then this variable does not need to be
+used.
+
+Default: `~/.api/prusa/token`.
 
 ### Where do motion detection snapshots get saved?
 
