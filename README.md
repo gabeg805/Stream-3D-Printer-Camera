@@ -4,8 +4,9 @@ Here's the most straightforward way I can think of to stream video from the
 camera pointed at your 3D printer and, if motion is detected, send a snapshot
 to **Prusa Connect**.
 
-All this code I got from examples online, which are linked in the python file
-if you want to reference anything I used.
+A lot of this code I got from examples online, which are linked in the
+[stream_3dprinter_camera.py](stream_3dprinter_camera.py) file if you want to
+reference anything I used.
 
 # Don't Panic
 

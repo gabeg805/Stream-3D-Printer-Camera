@@ -104,7 +104,18 @@ FPS = 30
 # event
 MOTION_THRESHOLD = 12
 
-# Number of loops to try and capture motion
+# Number of seconds to wait after a snapshot was saved and sent to Prusa
+# Connect
+WAIT_AFTER_MOTION = 30
+
+# Number of seconds to wait after some number of loops, defined by
+# MOTION_N_LOOPS, has occurred
+WAIT_AFTER_N_LOOPS = 5
+
+# Number of loops to try and capture motion. Detecting motion is expensive so
+# only compare for this many number of loops and then wait for a bit so that
+# the Raspberry Pi does not have to do as much work as constantly trying to
+# detect motion.
 MOTION_N_LOOPS = 15
 
 # Printer snapshot URL
@@ -193,6 +204,7 @@ def detect_motion(picam2):
 	if not PRINTER_TOKEN:
 
 		# Do not attempt to detect motion if there is no token
+		logging.error("Unable to detect motion because the PRINTER_TOKEN is not set.")
 		return
 
 	# Wait to detect motion
@@ -229,7 +241,7 @@ def detect_motion(picam2):
 				os.system(cmd)
 
 				# Delay until potentially taking another picture
-				time.sleep(30)
+				time.sleep(WAIT_AFTER_MOTION)
 
 				# Reset the current frame and loop counter
 				cur = None
@@ -238,13 +250,14 @@ def detect_motion(picam2):
 		# Set the previous image
 		prev = cur
 
-		# Check if should wait before proceeding
-		nloop = (nloop+1) % MOTION_N_LOOPS
-		print(time.time())
+		# Check if number of loops is set
+		if MOTION_N_LOOPS > 0:
 
-		if nloop == 0:
-			print("    WAIT")
-			time.sleep(5)
+			# Check if should wait before proceeding
+			nloop = (nloop+1) % MOTION_N_LOOPS
+
+			if nloop == 0:
+				time.sleep(WAIT_AFTER_N_LOOPS)
 	return
 
 def start_stream(picam2):
