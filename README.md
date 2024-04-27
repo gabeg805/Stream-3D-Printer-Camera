@@ -60,7 +60,7 @@ and it works the way you expect:
 
 If it works, then copy the _.service_ file into:
 
-`~/..config/systemd/user/`
+`~/.config/systemd/user/`
 
 Start the service file:
 
