@@ -1,9 +1,0 @@
-[Unit]
-Description=Start the stream for the 3D printer\'s camera and take pics of any motion.
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/python3 /data/projects/stream_3dprinter_camera/stream_3dprinter_camera.py
-
-[Install]
-WantedBy=default.target

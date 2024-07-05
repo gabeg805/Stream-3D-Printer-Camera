@@ -68,11 +68,13 @@
 #         https://datasheets.raspberrypi.com/camera/picamera2-manual.pdf
 # 
 
+import argparse
 import io
 import logging
 import numpy
 import os
 import socketserver
+import sys
 import time
 from datetime import datetime
 from http import server
@@ -92,7 +94,7 @@ PORT = 8000
 RESOLUTION = (1920, 1080)
 
 # Number of degrees to rotate. Only 0 and 180 degrees are accepted
-ROTATION = 180
+ROTATION = 0
 
 # Buffer count. A higher buffer count can mean that the camera will run more
 # smoothly and drop fewer frames, though the downside is that at higher
@@ -285,6 +287,47 @@ def start_stream(picam2):
 		picam2.stop_recording()
 	return
 
+# Create the argument parser
+parser = argparse.ArgumentParser(
+	prog=os.path.basename(sys.argv[0]),
+	description="Stream video from the camera and if motion is detected, send a snapshot to Pruse Connect.")
+
+# Add arguments to the parser
+res = f"{RESOLUTION[0]}x{RESOLUTION[1]}"
+
+parser.add_argument("-f", "--fps",
+	default=FPS,
+	type=int,
+	help=f"Frames per second to run the camera at. Default: {FPS}")
+
+parser.add_argument("-p", "--port",
+	default=PORT,
+	type=int,
+	help=f"Port to stream the camera video at. Default: {PORT}")
+
+parser.add_argument("-r", "--rot",
+	default=ROTATION,
+	type=int,
+	help=f"Number of degrees to rotate the camera video. Valid: 0, 180. Default: {ROTATION}")
+
+parser.add_argument("-s", "--size",
+	default=res,
+	help=f"Resolution of the camera video. Default: {res}")
+
+parser.add_argument("-N", "--no-detect",
+	action="store_true",
+	default=False,
+	help=f"Do not detect motion and send pics to Prusa Connect.")
+
+# Parse the arguments
+args = parser.parse_args()
+
+# Set the defaults
+FPS        = args.fps
+PORT       = args.port
+ROTATION   = args.rot
+RESOLUTION = tuple(int(i) for i in args.size.split("x"))
+
 # Setup how snapshots will be saved
 output = StreamingOutput()
 
@@ -304,16 +347,19 @@ picam2.configure(config)
 
 # Set auto focus and frame rate of the camera
 picam2.set_controls({ \
-	"AfMode": controls.AfModeEnum.Continuous,
+	"AfMode": controls.AfModeEnum.Auto,
 	"AfSpeed": controls.AfSpeedEnum.Normal,
 	"FrameRate": FPS})
 
 # Start the camera
 picam2.start_recording(JpegEncoder(), FileOutput(output))
 
-# Create thread to detect motion
-thread = Thread(target=detect_motion, args=[picam2], daemon=True)
-thread.start()
+# Check if should detect motion
+if not args.no_detect:
+
+	# Create thread to detect motion
+	thread = Thread(target=detect_motion, args=[picam2], daemon=True)
+	thread.start()
 
 # Start the stream
 start_stream(picam2)
