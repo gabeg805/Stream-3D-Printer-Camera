@@ -3,6 +3,7 @@ Description=Restart the stream for the 3D printer\'s camera.
 
 [Timer]
 OnCalendar=*-*-* 01:15:00
+AccuracySec=1s
 Persistent=true
 
 [Install]
