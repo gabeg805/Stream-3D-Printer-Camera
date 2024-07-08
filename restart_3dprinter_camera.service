@@ -1,0 +1,6 @@
+[Unit]
+Description=Restart the stream for the 3D printer\'s camera.
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl --user try-restart stream_3dprinter_camera.service
