@@ -25,6 +25,9 @@
 #               - Do not install this with pip. See documentation as to why
 #         * numpy
 #         * simplejpeg
+#         * python3-opencv
+#               - Optional, if you want the time overlayed on the stream, but
+#                 it's a pretty hefty sized package to install.
 #     
 #     In Prusa Connect:
 #     
@@ -80,7 +83,7 @@ from datetime import datetime
 from http import server
 from threading import Condition, Thread
 
-from picamera2 import Picamera2
+from picamera2 import Picamera2, MappedArray
 from picamera2.encoders import JpegEncoder
 from picamera2.outputs import FileOutput
 from libcamera import controls, Transform
@@ -146,6 +149,25 @@ if os.path.isfile(PRINTER_TOKEN_PATH):
 
 # Camera fingerprint for the printer. This is just a random string I generated
 PRINTER_CAMERA_FINGERPRINT = "d730a87e9ba94ff3b7960d89698eaeed"
+
+# Overlay on the stream shows the time. This would be the default format for
+# that time
+TIME_OVERLAY_FORMAT = "%a %b %d, %I:%M:%S %p"
+
+# List of colors for the time text in the overlay
+TIME_COLOR_MAP = {
+	"red":     (255,   0,   0),
+	"green":   (0,   255,   0),
+	"blue":    (0,     0, 255),
+	"yellow":  (255, 255,   0),
+	"magenta": (255,   0, 255),
+	"cyan":    (0,   255, 255),
+	"black":   (0,     0,   0),
+	"white":   (255, 255, 255)
+}
+
+# Default color for the time text in the overlay
+TIME_COLOR = "green"
 
 class StreamingOutput(io.BufferedIOBase):
 
@@ -287,6 +309,33 @@ def start_stream(picam2):
 		picam2.stop_recording()
 	return
 
+def apply_time_overlay(request):
+	"""
+	Apply the time overlay every instance that an image is processed.
+	"""
+
+	# Padding to use around the text and approx text height in pixels
+	padding = 15
+	textHeight = 25
+
+	# Position the text in the bottom left
+	position = (padding, RESOLUTION[1]-padding)
+
+	# Position the text in the top-left
+	#position = (padding, textHeight+padding)
+
+	# Get the timestamp
+	timestamp = time.strftime(TIME_OVERLAY_FORMAT)
+
+	# Default settings
+	font = cv2.FONT_HERSHEY_SIMPLEX
+	scale = 1
+	thickness = 3
+
+	# Display the text
+	with MappedArray(request, "main") as m:
+		cv2.putText(m.array, timestamp, position, font, scale, TIME_COLOR, thickness)
+
 # Create the argument parser
 parser = argparse.ArgumentParser(
 	prog=os.path.basename(sys.argv[0]),
@@ -317,16 +366,39 @@ parser.add_argument("-s", "--size",
 parser.add_argument("-N", "--no-detect",
 	action="store_true",
 	default=False,
-	help=f"Do not detect motion and send pics to Prusa Connect.")
+	help="Do not detect motion and thus do not send pics to Prusa Connect.")
+
+parser.add_argument("-t", "--time-overlay",
+	action="store_true",
+	default=False,
+	help=f"Show an overlay on the stream that displays the current time.")
+
+parser.add_argument("-T", "--time-format",
+	default=TIME_OVERLAY_FORMAT,
+	help=f"The time format for the overlay. Must be using '--time-overlay' for this to do anything. Default: {TIME_OVERLAY_FORMAT}")
+
+parser.add_argument("-C", "--time-color",
+	default=TIME_COLOR,
+	help=f"The color of the time text in the overlay. Must be using '--time-overlay' for this to do anything. Default: {TIME_COLOR}")
 
 # Parse the arguments
 args = parser.parse_args()
 
 # Set the defaults
-FPS        = args.fps
-PORT       = args.port
-ROTATION   = args.rot
-RESOLUTION = tuple(int(i) for i in args.size.split("x"))
+FPS           = args.fps
+PORT          = args.port
+ROTATION      = args.rot
+RESOLUTION    = tuple(int(i) for i in args.size.split("x"))
+TIME_COLOR    = args.time_color.lower()
+
+# Check the time color
+if TIME_COLOR not in TIME_COLOR_MAP:
+	print(f"Error: The time color '{TIME_COLOR}' is not valid. Please select on of:")
+	print(f"       {list(TIME_COLOR_MAP.keys())}")
+	exit(1)
+else:
+	# Set the time color to the RGB tuple
+	TIME_COLOR = TIME_COLOR_MAP[TIME_COLOR]
 
 # Setup how snapshots will be saved
 output = StreamingOutput()
@@ -350,6 +422,16 @@ picam2.set_controls({ \
 	"AfMode": controls.AfModeEnum.Auto,
 	"AfSpeed": controls.AfSpeedEnum.Normal,
 	"FrameRate": FPS})
+
+# Check if should show the time overlay
+if args.time_overlay:
+
+	# Only import this if showing the time overlay, so that users who do not
+	# need this don't need to install a huge package for it
+	import cv2
+
+	# Set the callback
+	picam2.post_callback = apply_time_overlay
 
 # Start the camera
 picam2.start_recording(JpegEncoder(), FileOutput(output))
