@@ -3,7 +3,7 @@ Description=Start the stream for the 3D printer\'s camera and take pics of any m
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /home/pi/projects/stream-3d-printer-camera/stream_3dprinter_camera.py --rot 180 --no-detect --fps 15
+ExecStart=/usr/bin/python3 /home/pi/projects/stream-3d-printer-camera/stream_3dprinter_camera.py --rot 180 --no-detect --fps 15 --time-overlay
 Restart=on-failure
 RestartSec=30
 
