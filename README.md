@@ -19,9 +19,7 @@ change one variable in a python file.
 
 # Prerequisites
 
-## Install any missing packages
-
-Install the following package so that your **Picamera2** works:
+## Install packages
 
 ```
 sudo apt install python3-picamera2
@@ -29,11 +27,13 @@ sudo apt install python3-numpy
 sudo apt install python3-simplejpeg
 ```
 
-There could be more that you have to install, I'm not sure.  I was updating the
-OS and firmware of my Raspberry Pi at the time, trying to get **Picamera 2** to
-work, so there was a whirwind of stuff I was installing and updating.  If you
-get any errors, reach out and I'll try to help you debug, and I'll update the
-README.
+Optionally, if you want the time overlayed on the stream, install the following
+package. It is a pretty hefty sized package to install though, so if you do not
+want it or do not have the space, it is not required.
+
+```
+sudo apt install python3-opencv
+```
 
 ## Setup camera in Prusa Connect
 

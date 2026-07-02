@@ -23,8 +23,8 @@
 #     
 #         * python3-picamera2
 #               - Do not install this with pip. See documentation as to why
-#         * numpy
-#         * simplejpeg
+#         * python3-numpy
+#         * python3-simplejpeg
 #         * python3-opencv
 #               - Optional, if you want the time overlayed on the stream, but
 #                 it's a pretty hefty sized package to install.
