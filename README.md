@@ -21,6 +21,8 @@ change one variable in a python file.
 
 ## Install packages
 
+The following packages are required:
+
 ```
 sudo apt install python3-picamera2
 sudo apt install python3-numpy
@@ -74,16 +76,19 @@ Your URL will be something like `http://192.168.0.123:8000`
 
 ## Start the stream via systemd
 
-Copy [stream_3dprinter_camera.service](stream_3dprinter_camera.service) into:
+Copy [stream_3dprinter_camera.service](stream_3dprinter_camera.service) into
+the user's systemd directory:
 
-`~/.config/systemd/user/`
+`cp stream_3dprinter_camera.service ~/.config/systemd/user/`
 
-Start the _.service_ file:
+Start the [stream_3dprinter_camera.service](stream_3dprinter_camera.service)
+service:
 
 `systemctl start --user stream_3dprinter_camera.service`
 
-To automatically start the _.service_ file even if the Raspberry Pi is
-restarted, then run:
+To automatically start the
+[stream_3dprinter_camera.service](stream_3dprinter_camera.service) service even
+if the Raspberry Pi is restarted, then run:
 
 `systemctl enable --user stream_3dprinter_camera.service`
 
